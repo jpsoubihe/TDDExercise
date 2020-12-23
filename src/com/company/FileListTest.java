@@ -21,7 +21,7 @@ class FileListTest {
     @Test
     public void openFileShouldAddToRecentFileList() {
         FileList fileList = new FileList();
-        FileList.openFile("FileA");
+        fileList.openFile("FileA");
         assertEquals(fileList.getRecent(), asList("FileA"));
     }
 }
