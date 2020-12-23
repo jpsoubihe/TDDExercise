@@ -3,9 +3,8 @@ package com.company;
 import org.junit.jupiter.api.Test;
 
 import static java.util.Collections.emptyList;
-import static org.junit.jupiter.api.Assertions.*;
 
-class FilesTest {
+class FileListTest {
 
 
     /**
@@ -13,7 +12,7 @@ class FilesTest {
      */
     @Test
     public void shouldReturnEmptyList(){
-        Files files = new Files();
-        assertEquals(files.getRecent, emptyList());
+        FileList fileList = new FileList();
+        assertEquals(fileList.getRecent, emptyList());
     }
 }
