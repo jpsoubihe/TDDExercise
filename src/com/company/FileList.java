@@ -1,4 +1,4 @@
 package com.company;
 
-public class Files {
+public class FileList {
 }
