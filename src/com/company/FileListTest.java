@@ -24,4 +24,22 @@ class FileListTest {
         fileList.openFile("FileA");
         assertEquals(fileList.getRecent(), asList("FileA"));
     }
+
+    @Test
+    public void openMultipleFilesShouldStoreMostRecentInTop() {
+        FileList fileList = new FileList();
+        fileList.openFile("FileA");
+        fileList.openFile("FileB");
+        fileList.openFile("FileC");
+        assertEquals(fileList.getRecent(), asList("FileC", "FileB", "FileA"));
+    }
+
+    @Test
+    public void shouldNotContainDuplicates(){
+        FileList fileList = new FileList();
+        fileList.openFile("FileA");
+        fileList.openFile("FileB");
+        fileList.openFile("FileA");
+        assertEquals(fileList.getRecent(), asList("FileA", "FileB"));
+    }
 }
