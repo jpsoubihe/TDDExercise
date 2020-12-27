@@ -117,4 +117,19 @@ class FileListTest {
         fileList.openFile(FILE_C);
         assertEquals(asList(FILE_B,FILE_A), fileList.getRecent());
     }
+
+    @Test
+    public void shouldUpdateListAfterUnlock() {
+        int limit = 3;
+        FileList fileList = new FileList(limit);
+        fileList.openFile(FILE_A);
+        fileList.lock();
+        fileList.openFile(FILE_B);
+        assertEquals(asList(FILE_A), fileList.getRecent());
+        fileList.unlock();
+        fileList.openFile(FILE_B);
+        assertEquals(asList(FILE_B,FILE_A), fileList.getRecent());
+    }
+
+
 }
