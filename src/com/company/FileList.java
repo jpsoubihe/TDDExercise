@@ -9,9 +9,12 @@ public class FileList {
 
     private final int limit;
 
+    private boolean locked;
+
     public FileList(int limit) {
         this.recentFiles = new LinkedList<>();
         this.limit = limit;
+        this.locked = false;
     }
     public List<String> getRecent() {
         return recentFiles;
@@ -19,6 +22,10 @@ public class FileList {
 
     public void setRecent(List<String> fileList){
         recentFiles = fileList;
+    }
+
+    public void lock() {
+        locked = true;
     }
 
     public int getLimit() {
@@ -30,10 +37,12 @@ public class FileList {
     }
 
     public void openFile(String fileName) {
-        if(getRecent().size() == limit){
-            recentFiles.remove(getRecent().size() - 1);
+        if (!locked) {
+            if (getRecent().size() == limit) {
+                recentFiles.remove(getRecent().size() - 1);
+            }
+            recentFiles.remove(fileName);
+            recentFiles.add(0, fileName);
         }
-        recentFiles.remove(fileName);
-        recentFiles.add(0, fileName);
     }
 }
