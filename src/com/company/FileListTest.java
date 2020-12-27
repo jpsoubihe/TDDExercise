@@ -19,20 +19,22 @@ class FileListTest {
      */
     @Test
     public void shouldReturnEmptyList(){
-        FileList fileList = new FileList();
+        FileList fileList = new FileList(1);
         assertEquals(fileList.getRecent(), emptyList());
     }
 
     @Test
     public void openFileShouldAddToRecentFileList() {
-        FileList fileList = new FileList();
+        int limit = 1;
+        FileList fileList = new FileList(limit);
         fileList.openFile(FILE_A);
         assertEquals(fileList.getRecent(), Collections.singletonList(FILE_A));
     }
 
     @Test
     public void openMultipleFilesShouldStoreMostRecentInTop() {
-        FileList fileList = new FileList();
+        int limit = 5;
+        FileList fileList = new FileList(limit);
         fileList.openFile(FILE_A);
         fileList.openFile(FILE_B);
         fileList.openFile(FILE_C);
@@ -41,7 +43,8 @@ class FileListTest {
 
     @Test
     public void shouldNotContainDuplicates(){
-        FileList fileList = new FileList();
+        int limit = 3;
+        FileList fileList = new FileList(limit);
         fileList.openFile(FILE_A);
         fileList.openFile(FILE_B);
         fileList.openFile(FILE_A);
@@ -52,7 +55,7 @@ class FileListTest {
     public void shouldNotPassListLimit() {
         int limit = 2;
         FileList fileList = new FileList(2);
-        assertEquals(2, fileList.limit);
+        assertEquals(2, fileList.getLimit());
         fileList.openFile(FILE_A);
         fileList.openFile(FILE_B);
         fileList.openFile(FILE_C);
@@ -62,7 +65,7 @@ class FileListTest {
     @Test
     public void shouldRemoveCaseFullList() {
         int limit = 2;
-        FileList fileList = new FileList(2);
+        FileList fileList = new FileList(limit);
         fileList.openFile(FILE_A);
         fileList.openFile(FILE_B);
         fileList.openFile(FILE_C);
@@ -72,11 +75,34 @@ class FileListTest {
     @Test
     public void shouldRemoveOldestInCaseFullList() {
         int limit = 2;
-        FileList fileList = new FileList(2);
+        FileList fileList = new FileList(limit);
         fileList.openFile(FILE_A);
         fileList.openFile(FILE_B);
         fileList.openFile(FILE_C);
         fileList.openFile(FILE_A);
         assertEquals(asList(FILE_A,FILE_C), fileList.getRecent());
+    }
+
+    @Test
+    public void shouldEmptyFullListAtAnytime() {
+        int limit = 3;
+        FileList fileList = new FileList(limit);
+        fileList.empty();
+        assertEquals(emptyList(), fileList.getRecent());
+        fileList.openFile(FILE_A);
+        fileList.openFile(FILE_B);
+        fileList.openFile(FILE_C);
+        fileList.openFile(FILE_A);
+        assertEquals(asList(FILE_A,FILE_C,FILE_B), fileList.getRecent());
+        fileList.empty();
+        assertEquals(emptyList(), fileList.getRecent());
+    }
+
+    @Test
+    public void shouldEmptyEmptyListAtAnytime() {
+        int limit = 3;
+        FileList fileList = new FileList(limit);
+        fileList.empty();
+        assertEquals(emptyList(), fileList.getRecent());
     }
 }
