@@ -54,8 +54,8 @@ class FileListTest {
     @Test
     public void shouldNotPassListLimit() {
         int limit = 2;
-        FileList fileList = new FileList(2);
-        assertEquals(2, fileList.getLimit());
+        FileList fileList = new FileList(limit);
+        assertEquals(limit, fileList.getLimit());
         fileList.openFile(FILE_A);
         fileList.openFile(FILE_B);
         fileList.openFile(FILE_C);
@@ -104,5 +104,17 @@ class FileListTest {
         FileList fileList = new FileList(limit);
         fileList.empty();
         assertEquals(emptyList(), fileList.getRecent());
+    }
+
+    @Test
+    public void shouldNotUpdateListIfItsLocked() {
+        int limit = 3;
+        FileList fileList = new FileList(limit);
+        fileList.openFile(FILE_A);
+        fileList.openFile(FILE_B);
+        assertEquals(asList(FILE_B,FILE_A), fileList.getRecent());
+        fileList.lock();
+        fileList.openFile(FILE_C);
+        assertEquals(asList(FILE_B,FILE_A), fileList.getRecent());
     }
 }
