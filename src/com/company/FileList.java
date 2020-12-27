@@ -28,6 +28,10 @@ public class FileList {
         locked = true;
     }
 
+    public void unlock() {
+        locked = false;
+    }
+
     public int getLimit() {
         return limit;
     }
