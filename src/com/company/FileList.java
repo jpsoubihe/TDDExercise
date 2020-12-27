@@ -16,6 +16,7 @@ public class FileList {
     }
 
     public void openFile(String fileName) {
-        recentFiles.add(fileName);
+        recentFiles.remove(fileName);
+        recentFiles.add(0, fileName);
     }
 }
